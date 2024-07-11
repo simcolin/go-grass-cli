@@ -12,10 +12,6 @@ import (
 	"golang.org/x/term"
 )
 
-func MoveCursor(x, y int) string {
-	return fmt.Sprintf("\033[%d;%dH", y, x*2)
-}
-
 var width int = 0
 var height int = 0
 var fd = int(os.Stdout.Fd())
@@ -40,6 +36,8 @@ func main() {
 
 	waitGroup.Wait()
 	close(quit)
+
+	fmt.Print(cmd.RESET)
 }
 
 func gameLoop(waitGroup *sync.WaitGroup, quit <-chan bool, gameState *cmd.GameState) {
@@ -83,6 +81,4 @@ func inputLoop(waitGroup *sync.WaitGroup, quit chan bool) {
 		}
 	}
 	waitGroup.Done()
-
-	fmt.Print(cmd.RESET)
 }
