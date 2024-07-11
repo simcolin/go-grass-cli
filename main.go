@@ -50,16 +50,15 @@ func gameLoop(waitGroup *sync.WaitGroup, quit <-chan bool, gameState *cmd.GameSt
 			waitGroup.Done()
 			return
 		default:
+			diff := time.Since(lastLoopTime).Seconds()
+			lastLoopTime = time.Now()
 			newWidth, newHeight := getTermSize()
 			if newWidth != width || newHeight != height {
-				fmt.Println("resize")
 				width = newWidth
 				height = newHeight
 				gameState.Resize(width, height)
 			}
-			diff := time.Since(lastLoopTime).Seconds()
 			gameState.Loop(diff)
-			lastLoopTime = time.Now()
 		}
 	}
 }
@@ -84,4 +83,6 @@ func inputLoop(waitGroup *sync.WaitGroup, quit chan bool) {
 		}
 	}
 	waitGroup.Done()
+
+	fmt.Print(cmd.RESET)
 }

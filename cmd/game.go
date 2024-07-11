@@ -65,5 +65,5 @@ func (g *GameState) Loop(deltaTime float64) {
 	fmt.Print(g.Screen)
 
 	g.WindDirection = g.WindDirection.Lerp(g.WindDirectionTarget, 0.01)
-	g.WindPosition = g.WindPosition.Add(g.WindDirection.Scale(1.0 / 60.0))
+	g.WindPosition = g.WindPosition.Add(g.WindDirection.Scale(deltaTime * 1.5))
 }
